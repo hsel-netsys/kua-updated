@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <chrono>
+#include<span>
 
 #include "config-bundle.hpp"
 #include "bucket.hpp"
@@ -98,7 +99,7 @@ private:
     ndn::Interest interest(interestName);
     interest.setMustBeFresh(false);
     interest.setCanBePrefix(false);
-    interest.setForwardingHint(ndn::DelegationList({{15893, hint }}));
+    interest.setForwardingHint(std::vector<ndn::Name> {15893, hint});
 
     m_face.expressInterest(interest,
                           [this, interestName] (const ndn::Interest&, const ndn::Data& data) {
@@ -244,11 +245,12 @@ private:
     while (is.good()) {
       is.read(reinterpret_cast<char*>(buffer.data()), buffer.size());
       const auto nCharsRead = is.gcount();
+      ndn::span<uint8_t> bufferSpan(buffer);
 
       if (nCharsRead > 0) {
         auto data = std::make_shared<ndn::Data>(ndn::Name(name).appendSegment(m_store.size()));
         data->setFreshnessPeriod(ndn::time::seconds(10));
-        data->setContent(buffer.data(), static_cast<size_t>(nCharsRead));
+        data->setContent(bufferSpan);
         m_store.push_back(data);
       }
     }
@@ -298,8 +300,8 @@ private:
   unsigned int pointer = 0;
   unsigned int done = 0;
 
-  std::chrono::_V2::system_clock::time_point start_time;
-  std::chrono::_V2::system_clock::time_point end_time;
+  std::chrono::high_resolution_clock::time_point start_time;
+  std::chrono::high_resolution_clock::time_point end_time;
 };
 
 } // namespace kua

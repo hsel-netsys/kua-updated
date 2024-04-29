@@ -28,7 +28,7 @@ AuctionMessage::wireEncode() const
   }
 
 #define K_ENCODE_BLK(VAR_V, TLV_V) {\
-    size_t valLength = enc.prependBlock(VAR_V); \
+    size_t valLength = enc.prependBytes(VAR_V); \
     totalLength += enc.prependVarNumber(valLength); \
     totalLength += enc.prependVarNumber(TLV_V); \
     totalLength += valLength; \
@@ -65,7 +65,7 @@ AuctionMessage::wireDecode(const ndn::Block& block)
 {
   block.parse();
 
-  if (block.type() != tlv::AuctionMessage)
+  if (block.type() != tlv::AuctionMessage) 
     NDN_THROW(ndn::tlv::Error("Expected AuctionMessage"));
 
 #define K_READ_NNI(VAR_V, TLV_V) { \

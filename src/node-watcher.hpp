@@ -37,7 +37,7 @@ private:
   ndn::random::RandomNumberEngine& m_rng;
   std::uniform_int_distribution<> m_retxDist;
 
-  std::map<ndn::Name, std::chrono::_V2::system_clock::time_point> m_nodeMap;
+  std::map<ndn::Name, std::chrono::system_clock::time_point> m_nodeMap;
 
   std::unique_ptr<ndn::svs::SVSync> m_svs;
 };
