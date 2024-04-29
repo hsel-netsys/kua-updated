@@ -65,7 +65,7 @@ AuctionMessage::wireDecode(const ndn::Block& block)
 {
   block.parse();
 
-  if (block.type() != tlv::AuctionMessage) 
+  if (block.type() != tlv::AuctionMessage)
     NDN_THROW(ndn::tlv::Error("Expected AuctionMessage"));
 
 #define K_READ_NNI(VAR_V, TLV_V) { \
