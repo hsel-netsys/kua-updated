@@ -112,7 +112,7 @@ for (size_t i = 0; i < interest.getForwardingHint().size(); ++i) {
         delegation[-1].toNumber() == CommandCodes::FETCH) {
       return this->fetch(interest);
     }
-}
+  }
 }
 
 void
